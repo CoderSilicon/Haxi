@@ -256,8 +256,6 @@ export default function HaxiWizard({
     });
   }
 
-  const progress = ((step + 1) / TOTAL_STEPS) * 100;
-
   return (
     <div className="w-full">
       {/* Progress */}

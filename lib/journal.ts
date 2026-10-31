@@ -1,4 +1,4 @@
-import type { KenkoResult, LearnLink, RedFlagPayload } from "../types/types";
+import type { HaxiResult, LearnLink, RedFlagPayload } from "../types/types";
 
 export interface CheckIn {
   id: string;
@@ -21,7 +21,7 @@ export interface JournalEntry {
   baselineSeverity: number;
   conditionName: string | null;
   triageLevel: string;
-  result: KenkoResult;
+  result: HaxiResult;
   redFlags: RedFlagPayload[];
   learn: LearnLink[];
   images: StoredImage[];

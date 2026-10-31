@@ -86,6 +86,12 @@ export async function POST(request: Request) {
         { status: 500 },
       );
     }
+    if (!modelName) {
+      return NextResponse.json(
+        { error: "The server is missing its GEMINI_MODEL setting." },
+        { status: 500 },
+      );
+    }
 
     // Step 1: word-based safety scan. Runs first, on its own, so a scary
     // symptom can never slip through because of how the AI answered.
@@ -99,7 +105,7 @@ export async function POST(request: Request) {
     // Step 2: ask the AI.
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model:"gemini-3.1-flash-lite",
+      model: modelName,
       systemInstruction: `${HAXI_SYSTEM_PROMPT}\n\n${OUTPUT_SHAPE_NOTE}`,
     });
 

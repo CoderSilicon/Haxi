@@ -1,6 +1,6 @@
 "use client";
 
-import type { RedFlagPayload } from "@/lib/learnTypes";
+import type { RedFlagPayload } from "@/types/learnTypes";
 
 /**
  * The big red banner. Shown first, always above everything else, whenever a

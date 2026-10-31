@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { BODY_AREAS } from "@/lib/bodyAreas";
 import type { LearnLink } from "@/types/learnTypes";

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { type JournalEntry, loadJournal, updateEntry } from "@/lib/journal";
-import type { LearnLink, RedFlagPayload } from "@/lib/learnTypes";
-import type { KenkoResult } from "@/types/types";
+import type { LearnLink, RedFlagPayload } from "@/types/learnTypes";
+import type { HaxiResult } from "@/types/types";
 import type { EvaluateResponse } from "../../api/evaluate/route";
 import ResultsDisplay from "../../components/ResultsDisplay";
 
@@ -25,7 +25,7 @@ export default function ResultPage() {
   );
   const [redFlags, setRedFlags] = useState<RedFlagPayload[]>([]);
   const [learn, setLearn] = useState<LearnLink[]>([]);
-  const [questions, setQuestions] = useState<KenkoResult["followup_questions"]>(
+  const [questions, setQuestions] = useState<HaxiResult["followup_questions"]>(
     [],
   );
   const [isRefining, setIsRefining] = useState(false);

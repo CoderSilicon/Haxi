@@ -1,6 +1,6 @@
 "use client";
 
-import type { LearnLink } from "@/lib/learnTypes";
+import type { LearnLink } from "@/types/learnTypes";
 
 /** Trusted reading from MedlinePlus, shown under the results. */
 export default function LearnMore({ links }: { links: LearnLink[] }) {
