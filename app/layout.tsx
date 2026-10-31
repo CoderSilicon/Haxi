@@ -36,7 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                   Haxi is a learning tool, not a doctor. It cannot diagnose or
                   treat you. Health information links come from MedlinePlus.gov,
                   a free service of the U.S. National Library of Medicine, which
-                  does not endorse Kenko. If something feels dangerous, call your
+                  does not endorse Haxi. If something feels dangerous, call your
                   local emergency number straight away.
                 </p>
               </div>

@@ -5,7 +5,7 @@ import Database from "better-sqlite3";
 
 
 const DB_PATH =
-  process.env.KENKO_DB_PATH ?? join(process.cwd(), "data", "kenko.db");
+  process.env.HAXI_DB_PATH ?? join(process.cwd(), "data", "haxi.db");
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 

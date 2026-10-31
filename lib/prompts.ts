@@ -18,7 +18,7 @@ Reply with ONLY this JSON object. No markdown, no code fences, no extra text.
 {
   "is_emergency": false,
   "emergency_warning": null,
-  "kenko_eval_summary": "Two clear sentences on what the pattern looks like overall.",
+  "haxi_eval_summary": "Two clear sentences on what the pattern looks like overall.",
   "plain_summary": "One sentence a child could understand. No medical words.",
   "user_hypothesis_analysis": {
     "user_suspected_condition": "Their guess in their own words, or empty string if they had none.",

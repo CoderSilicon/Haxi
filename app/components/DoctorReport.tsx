@@ -168,7 +168,7 @@ export default function DoctorReport({
               </div>
               <div className="text-right text-[11px] font-normal text-muted">
                 <p className="font-medium text-body">
-                  Prepared by the patient using Kenko
+                  Prepared by the patient using Haxi
                 </p>
                 <p>{formatDateTime(entry.createdAt)}</p>
                 <p className="mt-1 text-faint">

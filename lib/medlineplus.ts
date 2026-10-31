@@ -12,7 +12,7 @@ import { cacheGet, cacheSet } from "./db";
  */
 
 export const MEDLINEPLUS_BASE = "https://wsearch.nlm.nih.gov/ws/query";
-const TOOL = "kenko";
+const TOOL = "haxi";
 const MAX_PER_MINUTE = 60;
 const MAX_PER_SEARCH = 20;
 

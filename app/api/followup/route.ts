@@ -116,7 +116,7 @@ Use the answers to firm up or correct your first pass.`;
       learn,
     } satisfies EvaluateResponse);
   } catch (error) {
-    console.error("Kenko follow-up error:", error);
+    console.error("Haxi follow-up error:", error);
     const message =
       error instanceof Error ? error.message : "Unknown error occurred";
     return NextResponse.json(
