@@ -16,10 +16,10 @@ export interface FollowUpQuestion {
   choices: string[];
 }
 
-export interface KenkoResult {
+export interface HaxiResult {
   is_emergency: boolean;
   emergency_warning: string | null;
-  kenko_eval_summary: string;
+  haxi_eval_summary: string;
   /** One extra line a child could understand. */
   plain_summary: string;
   user_hypothesis_analysis: {

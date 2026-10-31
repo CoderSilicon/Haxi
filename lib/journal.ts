@@ -1,4 +1,4 @@
-import type { KenkoResult, LearnLink, RedFlagPayload } from "./types";
+import type { KenkoResult, LearnLink, RedFlagPayload } from "../types/types";
 
 export interface CheckIn {
   id: string;
@@ -28,9 +28,9 @@ export interface JournalEntry {
   checkIns: CheckIn[];
 }
 
-const STORAGE_KEY = "kenko:journal";
+const STORAGE_KEY = "haxi:journal";
 const MAX_BYTES = 4.5 * 1024 * 1024;
-export const JOURNAL_EVENT = "kenko:journal-changed";
+export const JOURNAL_EVENT = "haxi:journal-changed";
 
 export function uid(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;

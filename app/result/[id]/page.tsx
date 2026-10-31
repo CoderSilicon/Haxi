@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { type JournalEntry, loadJournal, updateEntry } from "@/lib/journal";
 import type { LearnLink, RedFlagPayload } from "@/lib/learnTypes";
-import type { KenkoResult } from "@/lib/types";
+import type { KenkoResult } from "@/types/types";
 import type { EvaluateResponse } from "../../api/evaluate/route";
 import ResultsDisplay from "../../components/ResultsDisplay";
 
@@ -116,12 +116,12 @@ export default function ResultPage() {
     <>
       {error && (
         <div className="mx-auto mt-6 max-w-4xl px-4 sm:px-6">
-          <div className="flex items-start justify-between gap-4 rounded-xl border border-danger/20 bg-danger-soft px-5 py-4">
+          <div className="flex items-start justify-between gap-4 rounded-lg border border-danger/30 bg-danger-soft px-4 py-3">
             <p className="text-sm text-danger">{error}</p>
             <button
               type="button"
               onClick={() => setError(null)}
-              className="shrink-0 text-xs font-semibold tracking-wide text-danger/70 uppercase hover:text-danger"
+              className="shrink-0 text-xs font-semibold text-danger hover:underline"
             >
               Close
             </button>

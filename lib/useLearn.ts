@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import type { LearnLink, MedlineResultShape } from "./learnTypes";
+import type { LearnLink, MedlineResultShape } from "@/types/learnTypes";
 
 export function useLearnSearch() {
   const [topics, setTopics] = useState<LearnLink[]>([]);

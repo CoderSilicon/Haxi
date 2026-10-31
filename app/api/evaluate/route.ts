@@ -1,9 +1,9 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 import { learnLinksFor } from "@/lib/learnLinks";
-import { KENKO_SYSTEM_PROMPT, OUTPUT_SHAPE_NOTE } from "@/lib/prompts";
+import { HAXI_SYSTEM_PROMPT, OUTPUT_SHAPE_NOTE } from "@/lib/prompts";
 import { applyRedFlagOverride, scanRedFlags } from "@/lib/redflags";
-import type { KenkoResult, LearnLink, RedFlagPayload } from "@/lib/types";
+import type { HaxiResult, LearnLink, RedFlagPayload } from "@/types/types";
 
 const MIME_MAP: Record<string, string> = {
   "image/jpeg": "image/jpeg",
@@ -15,7 +15,7 @@ const MIME_MAP: Record<string, string> = {
 export const maxDuration = 60;
 
 export interface EvaluateResponse {
-  result: KenkoResult;
+  result: HaxiResult;
   redFlags: RedFlagPayload[];
   learn: LearnLink[];
 }
@@ -57,13 +57,13 @@ async function readForm(formData: FormData) {
   return { symptoms, textParts, imageParts };
 }
 
-function parseJson(raw: string): KenkoResult {
+function parseJson(raw: string): HaxiResult {
   const cleaned = raw
     .replace(/^```json\s*/i, "")
     .replace(/^```\s*/i, "")
     .replace(/\s*```$/i, "")
     .trim();
-  return JSON.parse(cleaned) as KenkoResult;
+  return JSON.parse(cleaned) as HaxiResult;
 }
 
 export async function POST(request: Request) {
@@ -79,6 +79,7 @@ export async function POST(request: Request) {
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
+    const modelName = process.env.GEMINI_MODEL;
     if (!apiKey) {
       return NextResponse.json(
         { error: "The server is missing its GEMINI_API_KEY setting." },
@@ -98,8 +99,8 @@ export async function POST(request: Request) {
     // Step 2: ask the AI.
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: "gemini-3.5-flash-lite",
-      systemInstruction: `${KENKO_SYSTEM_PROMPT}\n\n${OUTPUT_SHAPE_NOTE}`,
+      model:"gemini-3.1-flash-lite",
+      systemInstruction: `${HAXI_SYSTEM_PROMPT}\n\n${OUTPUT_SHAPE_NOTE}`,
     });
 
     const parts: Array<
@@ -110,7 +111,7 @@ export async function POST(request: Request) {
       contents: [{ role: "user", parts }],
     });
 
-    let parsed: KenkoResult;
+    let parsed: HaxiResult;
     try {
       parsed = parseJson(completion.response.text());
     } catch {
@@ -136,12 +137,9 @@ export async function POST(request: Request) {
       redFlags,
       learn,
     } satisfies EvaluateResponse);
-  } catch (error) {
-    console.error("Kenko evaluation error:", error);
-    const message =
-      error instanceof Error ? error.message : "Unknown error occurred";
+  } catch {
     return NextResponse.json(
-      { error: `Evaluation failed: ${message}` },
+      { error: "There was an error processing your request. Please try again." },
       { status: 500 },
     );
   }

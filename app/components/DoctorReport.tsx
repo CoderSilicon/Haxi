@@ -5,7 +5,7 @@ import {
   type JournalEntry,
   parseSymptomParts,
 } from "@/lib/journal";
-import type { KenkoResult } from "@/lib/types";
+import type { HaxiResult } from "@/types/types";
 
 const LIKELIHOOD_STYLES: Record<string, string> = {
   High: "text-danger",
@@ -13,7 +13,7 @@ const LIKELIHOOD_STYLES: Record<string, string> = {
   Low: "text-muted",
 };
 
-function ConditionList({ result }: { result: KenkoResult }) {
+function ConditionList({ result }: { result: HaxiResult }) {
   return (
     <ol className="space-y-4">
       {result.differential_analysis.map((dx) => (
@@ -256,7 +256,7 @@ export default function DoctorReport({
               </p>
             </div>
             <ul className="mt-3 space-y-1.5">
-              {result.recommended_actions.map((action) => (
+              {result.recommended_actions.map((action: string) => (
                 <li
                   key={action}
                   className="flex items-start gap-2 text-[13px] font-normal text-body"
@@ -290,7 +290,7 @@ export default function DoctorReport({
           <section className="mb-8">
             <SectionLabel>Questions the patient would like to ask</SectionLabel>
             <ol className="space-y-2">
-              {result.physician_consult_guide.map((q, i) => (
+              {result.physician_consult_guide.map((q: string, i: number) => (
                 <li
                   key={q}
                   className="flex items-start gap-3 text-[13px] font-normal text-ink"
@@ -357,7 +357,7 @@ export default function DoctorReport({
           <div className="border-t border-line-soft pt-4">
             <p className="text-[10px] font-normal leading-relaxed text-muted">
               This document is an AI-generated educational summary produced by
-              Kenko from patient-submitted information. It is not a medical
+              Haxi from patient-submitted information. It is not a medical
               diagnosis, does not replace clinical judgement, and may contain
               inaccuracies. Decisions about care should always be made with a
               licensed healthcare provider.

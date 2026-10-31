@@ -11,12 +11,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Kenko",
+  title: "Haxi",
   description:
     "Answer a few easy questions and get a clear, honest answer about what your symptoms could mean and what to do next.",
-  icons: {
-    icon: "/favicon.svg",
-  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -26,21 +23,21 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
           <main className="flex-1">{children}</main>
-          <footer className="no-print w-full border-t border-line bg-surface">
-            <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm font-semibold tracking-tight">
-                  Kenko<span className="text-accent">.</span>
+          <footer className="no-print w-full border-t border-cyan-800 mt-10">
+            <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <p className="text-base font-semibold tracking-tight">
+                  Haxi
                 </p>
-                <p className="max-w-3xl text-xs leading-relaxed text-muted">
+                <p className="max-w-2xl text-xs leading-relaxed text-muted">
                   <span className="font-medium text-body">
                     Please remember:
                   </span>{" "}
-                  Kenko is a learning tool, not a doctor. It cannot diagnose or
+                  Haxi is a learning tool, not a doctor. It cannot diagnose or
                   treat you. Health information links come from MedlinePlus.gov,
                   a free service of the U.S. National Library of Medicine, which
-                  does not endorse Kenko. If you feel unwell, please talk to a
-                  real healthcare professional.
+                  does not endorse Kenko. If something feels dangerous, call your
+                  local emergency number straight away.
                 </p>
               </div>
             </div>

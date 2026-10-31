@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { BODY_AREAS } from "@/lib/bodyAreas";
-import type { LearnLink } from "@/lib/learnTypes";
+import type { LearnLink } from "@/types/learnTypes";
 import { useLearnQuery } from "@/lib/useLearn";
 
 const AREAS = BODY_AREAS;
@@ -14,27 +14,31 @@ function TopicCard({ topic }: { topic: LearnLink }) {
       href={topic.url}
       target="_blank"
       rel="noreferrer noopener"
-      className="group block rounded-2xl border border-line bg-surface p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-md"
+      className="group block rounded-xl border border-line bg-surface p-5 transition-colors duration-200 hover:border-accent/40 sm:p-6"
     >
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="text-base font-semibold tracking-tight">
+      <div className="flex items-start justify-between gap-4">
+        <h3 className="max-w-xl text-base font-semibold leading-snug tracking-tight">
           {topic.title}
         </h3>
+
         <span
           aria-hidden="true"
-          className="mt-0.5 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-accent"
+          className="mt-0.5 shrink-0 text-base text-muted transition-colors group-hover:text-accent-strong"
         >
           ↗
         </span>
       </div>
+
       {topic.snippet && (
-        <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-body line-clamp-2">
           {topic.snippet}
         </p>
       )}
-      <p className="mt-3 text-xs font-medium text-accent-strong">
-        Read on MedlinePlus.gov
-      </p>
+
+      <div className="mt-5 flex items-center gap-2 text-xs font-semibold text-accent-strong">
+        Read resource
+        <span aria-hidden="true">→</span>
+      </div>
     </a>
   );
 }
@@ -54,131 +58,143 @@ export default function LearnPage() {
   const current = AREAS.find((a) => a.id === area);
 
   return (
-    <div className="animate-in fade-in">
-      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 md:py-14">
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight md:text-3xl">
-          Learn about a health topic
+
+<div className="animate-in fade-in">
+  <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-9">
+
+    {/* Header */}
+    <header className="mb-6">
+      <div className="flex items-center gap-2">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Learn
         </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-body">
-          Explanations from the U.S. National Library of Medicine.
-          Pick a body part, or search for anything.
-        </p>
+      </div>
+      <p className="mt-1 text-sm text-muted">
+        Reliable health information, powered by MedlinePlus.
+      </p>
+    </header>
 
-        {/* Search */}
-        <form
-          className="mt-8 flex gap-2"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setSubmitted(term.trim());
+    {/* Search */}
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        setSubmitted(term.trim());
+      }}
+      className="flex items-center gap-2 rounded-xl border border-subtle bg-surface p-1.5 shadow-sm"
+    >
+      <input
+        type="search"
+        value={term}
+        onChange={(e) => setTerm(e.target.value)}
+        placeholder="Search health topics..."
+        aria-label="Search health topics"
+        className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm outline-none placeholder:text-muted"
+      />
+
+      {submitted.length > 0 && (
+        <button
+          type="button"
+          onClick={() => {
+            setTerm("");
+            setSubmitted("");
           }}
+          className="rounded-lg px-3 py-2 text-xs font-medium text-muted hover:bg-surface-secondary"
         >
-          <input
-            type="search"
-            value={term}
-            onChange={(e) => setTerm(e.target.value)}
-            placeholder="e.g. headache, rash, diabetes..."
-            aria-label="Search health topics"
-            className="k-input flex-1"
-          />
-          <button type="submit" className="k-btn shrink-0 px-6">
-            Search
-          </button>
-          {submitted.length > 0 && (
-            <button
-              type="button"
-              className="k-btn-ghost shrink-0 px-5"
-              onClick={() => {
-                setTerm("");
-                setSubmitted("");
-              }}
-            >
-              Clear
-            </button>
-          )}
-        </form>
+          Clear
+        </button>
+      )}
 
-        {/* Body areas */}
-        {submitted.length === 0 && (
-          <div className="mt-8">
-            <p className="mb-3 text-sm font-semibold">Pick a body part</p>
-            <div className="flex flex-wrap gap-2">
-              {AREAS.map((a) => (
-                <button
-                  key={a.id}
-                  type="button"
-                  onClick={() => setArea(a.id)}
-                  aria-pressed={area === a.id}
-                  className={`k-chip ${area === a.id ? "k-chip-on" : "k-chip-off"}`}
-                >
-                  <span aria-hidden="true">{a.emoji}</span>
-                  {a.label}
-                </button>
-              ))}
-            </div>
-          </div>
+      <button
+        type="submit"
+        className="k-btn shrink-0 rounded-lg px-4 py-2 text-sm"
+      >
+        Search
+      </button>
+    </form>
+
+    {/* Categories */}
+    {submitted.length === 0 && (
+      <section className="mt-7">
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="text-sm font-semibold tracking-tight">
+            Explore topics
+          </h2>
+          <span className="text-xs text-muted">
+            Browse by body area
+          </span>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {AREAS.map((a) => (
+            <button
+              key={a.id}
+              type="button"
+              onClick={() => setArea(a.id)}
+              aria-pressed={area === a.id}
+              className={`k-chip rounded-full px-3 py-1.5 text-xs transition-colors ${
+                area === a.id
+                  ? "k-chip-on"
+                  : "k-chip-off hover:bg-surface-secondary"
+              }`}
+            >
+              {a.label}
+            </button>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {/* Results */}
+    <section className="mt-8">
+
+      {active.loading && (
+        <p className="py-8 text-center text-sm text-muted">
+          Finding health topics...
+        </p>
+      )}
+
+      {active.error && (
+        <div className="rounded-xl border border-danger/20 px-4 py-3">
+          <p className="text-sm text-danger">{active.error}</p>
+        </div>
+      )}
+
+      {!active.loading &&
+        !active.error &&
+        active.topics.length === 0 && (
+          <p className="py-10 text-center text-sm text-muted">
+            No topics found. Try another search.
+          </p>
         )}
 
-        {/* Results */}
-        <div className="mt-8">
-          {active.loading && (
-            <p className="text-sm text-muted">Loading health topics…</p>
-          )}
+      {!active.loading &&
+        !active.error &&
+        active.topics.length > 0 && (
+          <>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-base font-semibold tracking-tight">
+                {submitted.length > 0
+                  ? "Search results"
+                  : current
+                    ? `${current.label}`
+                    : "Explore"}
+              </h2>
 
-          {active.error && (
-            <div className="rounded-xl border border-danger/20 bg-danger-soft px-5 py-4">
-              <p className="text-sm text-danger">{active.error}</p>
+              <span className="text-xs text-muted">
+                {active.topics.length} topics
+              </span>
             </div>
-          )}
 
-          {!active.loading && !active.error && active.topics.length === 0 && (
-            <p className="text-sm text-muted">
-              Nothing found. Try a different word.
-            </p>
-          )}
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {active.topics.map((topic) => (
+                <TopicCard key={topic.url} topic={topic} />
+              ))}
+            </div>
+          </>
+        )}
+    </section>
+  </div>
+</div>
 
-          {!active.loading && active.topics.length > 0 && (
-            <>
-              <p className="mb-4 text-sm text-body">
-                {submitted.length > 0 ? (
-                  <>
-                    Showing{" "}
-                    <span className="font-semibold">
-                      {active.topics.length}
-                    </span>{" "}
-                    results for &quot;{submitted}&quot;
-                  </>
-                ) : (
-                  <>
-                    <span className="font-semibold">{current?.kidLabel}</span> —{" "}
-                    {active.topics.length} topics
-                  </>
-                )}
-              </p>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {active.topics.map((t) => (
-                  <TopicCard key={t.url} topic={t} />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-
-        <div className="mt-12 rounded-2xl bg-accent px-6 py-8 text-center sm:px-8">
-          <h2 className="text-lg font-semibold tracking-tight text-white sm:text-xl">
-            Feeling something today?
-          </h2>
-          <p className="mx-auto mt-2 max-w-md text-sm text-white/90">
-            We can look at your symptoms and tell you what to do next.
-          </p>
-          <Link
-            href="/evaluate"
-            className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-accent-strong transition-colors hover:bg-accent-soft"
-          >
-            Check my symptoms
-            <span aria-hidden="true">→</span>
-          </Link>
-        </div>
-      </div>
-    </div>
   );
 }

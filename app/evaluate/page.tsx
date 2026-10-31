@@ -1,6 +1,4 @@
 "use client";
-
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
@@ -11,7 +9,7 @@ import {
   uid,
 } from "@/lib/journal";
 import type { EvaluateResponse } from "../api/evaluate/route";
-import KenkoWizard from "../components/KenkoWizard";
+import HaxiWizard from "../components/HaxiWizard";
 
 export default function EvaluatePage() {
   const router = useRouter();
@@ -72,25 +70,25 @@ export default function EvaluatePage() {
 
   return (
     <div className="animate-in fade-in">
-      <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 md:py-14">
-        <div className="mb-8">
-          <h1 className="mt-3 text-2xl font-semibold tracking-tight md:text-3xl">
-            Tell us what is going on
+      <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-12">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            Check symptoms
           </h1>
-          <p className="mt-2 max-w-xl text-sm leading-relaxed text-body">
-            One question at a time. If you are not sure, just skip it.
+          <p className="mt-1 text-sm text-body">
+            One question at a time. Skip if unsure.
           </p>
         </div>
 
-        <div className="k-card p-5 sm:p-8">
-          <KenkoWizard onComplete={handleEvaluate} isLoading={isLoading} />
+        <div className="rounded-xl border border-line bg-surface p-5 sm:p-8">
+          <HaxiWizard onComplete={handleEvaluate} isLoading={isLoading} />
           {error && (
-            <div className="mt-6 flex items-start justify-between gap-4 rounded-xl border border-danger/20 bg-danger-soft px-5 py-4">
+            <div className="mt-5 flex items-start justify-between gap-4 rounded-lg border border-danger/30 bg-danger-soft px-4 py-3">
               <p className="text-sm text-danger">{error}</p>
               <button
                 type="button"
                 onClick={() => setError(null)}
-                className="shrink-0 text-xs font-semibold tracking-wide text-danger/70 uppercase hover:text-danger"
+                className="shrink-0 text-xs font-semibold text-danger hover:underline"
               >
                 Close
               </button>
@@ -98,9 +96,8 @@ export default function EvaluatePage() {
           )}
         </div>
 
-        <p className="mt-6 text-center text-xs leading-relaxed text-muted">
-          If something feels dangerous, do not wait for an answer. Call your
-          local emergency number now.
+        <p className="mt-5 text-xs text-muted">
+          If something feels dangerous, call your local emergency number now.
         </p>
       </div>
     </div>

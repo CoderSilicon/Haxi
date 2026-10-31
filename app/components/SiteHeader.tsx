@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { JOURNAL_EVENT, loadJournal } from "@/lib/journal";
+import Image from "next/image";
 
 export default function SiteHeader() {
   const [count, setCount] = useState(0);
@@ -15,40 +16,54 @@ export default function SiteHeader() {
   }, []);
 
   return (
-    <header className="no-print sticky top-0 z-40 w-full border-b border-line bg-paper/90 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
+    <header className="no-print sticky top-0 z-40 w-full border-b border-line bg-surface/95 backdrop-blur">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6">
+
+        {/* Brand */}
         <Link
           href="/"
-          className="flex items-baseline gap-0.5 text-lg font-bold tracking-tight transition-opacity hover:opacity-70"
+          aria-label="Haxi home"
+          className="flex shrink-0 items-center gap-2.5"
         >
-          Kenko<span className="text-accent">.</span>
+          <Image
+            src="/favicon.svg"
+            alt=""
+            width={32}
+            height={32}
+            className="size-8"
+          />
+          <span className="hidden text-lg font-bold tracking-tight sm:inline">
+            Haxi
+          </span>
         </Link>
 
-        <nav className="flex items-center gap-1.5 sm:gap-2">
+        {/* Navigation */}
+        <nav aria-label="Main navigation" className="flex items-center gap-3 sm:gap-6">
           <Link
             href="/learn"
-            className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-body transition-colors hover:bg-soft hover:text-accent-strong"
+            className="text-xs font-medium text-body transition-colors hover:text-accent-strong sm:text-sm"
           >
             Learn
           </Link>
+
           <Link
             href="/journal"
-            className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-body transition-colors hover:bg-soft hover:text-accent-strong"
+            className="inline-flex items-center gap-1 text-xs font-medium text-body transition-colors hover:text-accent-strong sm:gap-1.5 sm:text-sm"
           >
             Journal
             {count > 0 && (
-              <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-accent-soft px-1.5 text-[11px] font-semibold text-accent-strong">
+              <span className="inline-flex min-w-4 items-center justify-center rounded-full bg-accent-soft px-1 text-[10px] font-semibold text-accent-strong">
                 {count}
               </span>
             )}
           </Link>
+
           <Link
             href="/evaluate"
-            className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-accent-strong sm:px-5"
+            className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-lg bg-accent px-3 text-xs font-semibold text-white sm:min-h-10 sm:gap-2 sm:px-4 sm:text-sm"
           >
-            <span className="text-base leading-none">+</span>
+            <span className="sm:hidden">Check</span>
             <span className="hidden sm:inline">Check symptoms</span>
-            <span className="inline sm:hidden">Check</span>
           </Link>
         </nav>
       </div>

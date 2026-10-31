@@ -2,42 +2,39 @@ import Link from "next/link";
 
 const STEPS = [
   {
-    icon: "1",
-    title: "Tell us what hurts",
-    desc: "Answer a few short questions. Skip anything you do not know.",
+    num: "01",
+    title: "Tell us",
+    desc: "Answer a few questions about how you're feeling and what you're experiencing.",
   },
   {
-    icon: "2",
-    title: "Add a photo",
-    desc: "Optional. A clear photo of a rash or sore helps a lot.",
+    num: "02",
+    title: "Add context as well",
+    desc: "Optionally you might add a photo or more details if helpful. Yes, you can even add what you suspect might be going on.",
   },
   {
-    icon: "3",
-    title: "Get a clear answer",
-    desc: "We show what it might be, and what to do right now.",
+    num: "03",
+    title: "Get answers clearly",
+    desc: "See what the symptoms might be and what precautions and necessary steps to do right now.",
   },
   {
-    icon: "4",
-    title: "Watch how it changes",
-    desc: "A quick daily check-in shows if you are getting better.",
+    num: "04",
+    title: "Jot it down",
+    desc: "Check in daily to see how things are going on and track your progress. You can also download a PDF report of your symptoms and the results.",
   },
 ];
 
-const ALSO = [
+const FEATURES = [
   {
-    emoji: "🚨",
-    title: "Danger signs come first",
-    desc: "We check for emergency signs before anything else, so nothing scary gets missed.",
+    title: "Safety first",
+    desc: "Emergency signs are caught before anything else.",
   },
   {
-    emoji: "❓",
-    title: "We ask you back",
-    desc: "Two or three extra questions make the answer much more accurate.",
+    title: "Ask back",
+    desc: "Smart follow-ups help get a more accurate picture.",
   },
   {
-    emoji: "📚",
-    title: "Real reading, not guesses",
-    desc: "Links come from MedlinePlus, the U.S. National Library of Medicine.",
+    title: "Real sources",
+    desc: "All information comes from MedlinePlus, trusted and verified.",
   },
 ];
 
@@ -45,84 +42,82 @@ export default function Home() {
   return (
     <div className="animate-in fade-in">
       {/* Hero */}
-      <section className="flex min-h-svh items-center justify-center border-b border-line bg-surface">
-        <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6">
-          <h1 className="text-balance text-5xl leading-[1.08] font-bold tracking-tight sm:text-6xl lg:text-7xl">
-            Find out what your <span className="text-accent">symptoms</span>{" "}
-            could mean.
-          </h1>
-          <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-body sm:text-xl">
-            Answer a few easy questions. Get a clear, honest answer you can
-            actually use.
-          </p>
-          <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link href="/evaluate" className="k-btn px-9 py-4 text-base">
-              Check my symptoms
-              <span aria-hidden="true">→</span>
-            </Link>
-            <Link href="/learn" className="k-btn-ghost px-7 py-4 text-base">
-              Learn about a topic
-            </Link>
-          </div>
-          <p className="mt-6 text-sm text-muted">
-            Takes about two minutes. Nothing to sign up for.
-          </p>
-        </div>
-      </section>
+      <section className="relative overflow-hidden border-b border-line">
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-accent/8 via-transparent to-transparent" />
 
-      {/* How it works */}
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
-        <div className="mb-12">
-          <p className="text-xs font-semibold tracking-[0.2em] text-accent uppercase">
-            How it works
-          </p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight md:text-3xl">
-            Four simple steps
-          </h2>
-        </div>
+        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+          <div className="max-w-3xl">
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {STEPS.map((s) => (
-            <div
-              key={s.icon}
-              className="h-full rounded-2xl border border-line bg-surface p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent hover:shadow-md"
-            >
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-base font-bold text-accent-strong">
-                {s.icon}
-              </span>
-              <h3 className="mt-5 text-base font-semibold">{s.title}</h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                {s.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+            <h1 className="text-balance text-4xl leading-[1.12] font-bold tracking-tight sm:text-5xl lg:text-6xl">
+              Find out what your symptoms
+              <span className="text-accent"> could mean.</span>
+            </h1>
 
-      {/* What makes it better */}
-      <section className="border-y border-line bg-surface">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
-          <div className="mb-12">
-            <p className="text-xs font-semibold tracking-[0.2em] text-accent uppercase">
-              Why trust it
+            <p className="mt-5 max-w-2xl text-base leading-7 text-body sm:text-lg">
+              Answer a few questions and get a clear, honest explanation
+              of what might be going on and what to do next.
             </p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight md:text-3xl">
-              Built to be careful, not clever
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/evaluate" className="k-btn justify-center gap-3 px-6 py-3">
+                Check my symptoms
+              </Link>
+
+              <Link href="/learn" className="k-btn-ghost justify-center px-6 py-3">
+                Explore health topics
+              </Link>
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted">
+              <span className="inline-flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                About 2 minutes
+              </span>
+              <span>No account needed</span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Steps */}
+      <section className="relative overflow-hidden border-t border-line">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-20">
+
+          <div className="mb-10 max-w-xl">
+            <span className="mb-3 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-accent-strong">
+              <span className="h-px w-6 bg-accent" />
+              The process
+            </span>
+
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+              How it works<span className="text-accent">.</span>
             </h2>
+
+            <p className="mt-3 text-sm leading-relaxed text-body sm:text-base">
+              Four simple steps to get started and reach your goal.
+            </p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
-            {ALSO.map((f) => (
-              <div
-                key={f.title}
-                className="h-full rounded-2xl border border-line bg-paper p-6"
-              >
-                <span aria-hidden="true" className="text-2xl">
-                  {f.emoji}
-                </span>
-                <h3 className="mt-4 text-base font-semibold">{f.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                  {f.desc}
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+            {STEPS.map((s, i) => (
+              <div key={s.num} className="relative">
+                <div className="mb-5 flex items-center gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-accent-soft text-sm font-bold text-accent-strong">
+                    {String(s.num).padStart(2, "0")}
+                  </div>
+
+                  {i !== STEPS.length - 1 && (
+                    <div className="hidden h-px flex-1 bg-linear-to-r from-accent/40 to-line lg:block" />
+                  )}
+                </div>
+
+                <h3 className="text-base font-bold tracking-tight sm:text-lg">
+                  {s.title}
+                </h3>
+
+                <p className="mt-2 max-w-xs text-sm leading-6 text-body">
+                  {s.desc}
                 </p>
               </div>
             ))}
@@ -130,22 +125,88 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Features */}
+      <section className="border-t border-line">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-20">
+
+          <div className="mb-10 max-w-xl">
+            <span className="mb-3 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-accent-strong">
+              <span className="h-px w-6 bg-accent" />
+              The advantages
+            </span>
+
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+              Why use this tool<span className="text-accent">?</span>
+            </h2>
+
+            <p className="mt-3 text-sm leading-relaxed text-body sm:text-base">
+              Everything you need, without unnecessary complexity.
+            </p>
+          </div>
+
+          <div className="grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map((f, i) => (
+              <div key={f.title} className="relative border-l-2 border-accent/25 pl-5">
+                <span className="mb-3 block text-xs font-bold tabular-nums tracking-widest text-accent-strong">
+                  0{i + 1}
+                </span>
+
+                <h3 className="text-base font-bold tracking-tight sm:text-lg">
+                  {f.title}
+                </h3>
+
+                <p className="mt-2 text-sm leading-6 text-body">
+                  {f.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
-        <div className="flex flex-col items-center gap-6 rounded-3xl bg-accent px-8 py-12 text-center shadow-sm md:py-16">
-          <h2 className="max-w-2xl text-2xl font-semibold tracking-tight text-white md:text-3xl">
-            Not sure if something is worth worrying about?
-          </h2>
-          <p className="max-w-xl text-sm leading-relaxed text-white/90">
-            You will get an honest answer in about two minutes.
-          </p>
-          <Link
-            href="/evaluate"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-9 py-4 text-base font-semibold text-accent-strong shadow-sm transition-colors hover:bg-accent-soft"
-          >
-            Check my symptoms
-            <span aria-hidden="true">→</span>
-          </Link>
+      <section className="border-t border-line">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+          <div className="relative isolate overflow-hidden rounded-3xl bg-accent px-6 py-12 text-white sm:px-10 sm:py-16 lg:px-14 lg:py-20">
+
+            <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full border border-white/10" />
+            <div className="pointer-events-none absolute -right-12 -top-12 h-56 w-56 rounded-full border border-white/10" />
+
+            <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+
+              <div className="max-w-2xl">
+                <span className="mb-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-white/75">
+                  <span className="h-px w-6 bg-white/70" />
+                  Take the next step
+                </span>
+
+                <h2 className="text-balance text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+                  Not sure if it's worth worrying about?
+                </h2>
+
+                <p className="mt-4 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
+                  Get a clearer picture of what your symptoms could mean
+                  and what steps you might consider taking next.
+                </p>
+              </div>
+
+              <div className="relative shrink-0">
+                <Link
+                  href="/evaluate"
+                  className="inline-flex min-h-14 w-full items-center justify-center gap-4 rounded-xl bg-white px-8 py-4 text-base font-bold text-accent shadow-sm transition-colors duration-200 hover:bg-white/90 sm:w-auto"
+                >
+                  Check my symptoms
+                  <span aria-hidden="true" className="text-xl">→</span>
+                </Link>
+
+                <p className="mt-3 text-center text-xs text-white/70">
+                  About 2 minutes · No account needed
+                </p>
+              </div>
+
+            </div>
+          </div>
         </div>
       </section>
     </div>

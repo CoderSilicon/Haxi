@@ -36,18 +36,17 @@ export default function JournalPage() {
 
   return (
     <div className="animate-in fade-in">
-      <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 md:py-14">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h1 className="mt-2 text-2xl font-semibold tracking-tight md:text-3xl">
-              My health journal
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+              Journal
             </h1>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-body">
-              This is saved on this device. Check in each day to see if you are getting
-              better.
+            <p className="mt-1 text-sm text-body">
+              Saved on this device
             </p>
           </div>
-          <Link href="/evaluate" className="k-btn">
+          <Link href="/evaluate" className="k-btn px-5">
             <span aria-hidden="true">+</span>
             New check
           </Link>

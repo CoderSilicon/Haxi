@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { FollowUpQuestion } from "@/lib/types";
+import type { FollowUpQuestion } from "@/types/types";
 
 /**
  * The short extra questions. Answers are handed back to the parent, which
@@ -52,15 +52,15 @@ export default function FollowUpQuestions({
   const visible = showAll ? questions : questions.slice(0, 2);
 
   return (
-    <div className="rounded-2xl border border-accent/30 bg-accent-soft/50 p-5 sm:p-7">
-      <p className="text-xs font-semibold tracking-[0.2em] text-accent uppercase">
-        To be more sure
+    <div className="rounded-3xl border border-accent/20 bg-accent-soft/30 p-6 sm:p-8">
+      <p className="text-xs font-medium uppercase tracking-wider text-accent-strong">
+        Follow-up
       </p>
-      <h2 className="mt-1.5 text-lg font-semibold tracking-tight sm:text-xl">
-        A couple more questions
+      <h2 className="mt-2 text-lg font-medium tracking-tight sm:text-xl">
+        A few more questions
       </h2>
-      <p className="mt-1.5 text-sm leading-relaxed text-body">
-        Your answers make the answer more accurate. Pick one answer for each.
+      <p className="mt-2 text-sm leading-relaxed text-body">
+        Answers help refine the result.
       </p>
 
       <div className="mt-6 space-y-6">

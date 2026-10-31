@@ -2,12 +2,12 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 import { learnLinksFor } from "@/lib/learnLinks";
 import {
-  KENKO_SYSTEM_PROMPT,
+  HAXI_SYSTEM_PROMPT,
   OUTPUT_SHAPE_NOTE,
   REFINEMENT_INSTRUCTIONS,
 } from "@/lib/prompts";
 import { applyRedFlagOverride, scanRedFlags } from "@/lib/redflags";
-import type { KenkoResult, LearnLink, RedFlagPayload } from "@/lib/types";
+import type { HaxiResult, LearnLink, RedFlagPayload } from "@/types/types";
 import type { EvaluateResponse } from "../evaluate/route";
 
 export const maxDuration = 60;
@@ -15,7 +15,7 @@ export const maxDuration = 60;
 interface FollowUpBody {
   symptoms: string;
   background: string;
-  previous: KenkoResult;
+  previous: HaxiResult;
   answers: Array<{ id: string; question: string; answer: string }>;
 }
 
@@ -35,9 +35,16 @@ export async function POST(request: Request) {
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
+    const modelName = process.env.GEMINI_MODEL;
     if (!apiKey) {
       return NextResponse.json(
         { error: "The server is missing its GEMINI_API_KEY setting." },
+        { status: 500 },
+      );
+    }
+    if (!modelName) {
+      return NextResponse.json(
+        { error: "The server is missing its GEMINI_MODEL setting." },
         { status: 500 },
       );
     }
@@ -67,15 +74,15 @@ Use the answers to firm up or correct your first pass.`;
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: "gemini-3.5-flash-lite",
-      systemInstruction: `${KENKO_SYSTEM_PROMPT}\n${REFINEMENT_INSTRUCTIONS}\n\n${OUTPUT_SHAPE_NOTE}`,
+      model: modelName,
+      systemInstruction: `${HAXI_SYSTEM_PROMPT}\n${REFINEMENT_INSTRUCTIONS}\n\n${OUTPUT_SHAPE_NOTE}`,
     });
 
     const completion = await model.generateContent({
       contents: [{ role: "user", parts: [{ text: prompt }] }],
     });
 
-    let parsed: KenkoResult;
+    let parsed: HaxiResult;
     try {
       parsed = JSON.parse(
         completion.response
@@ -84,7 +91,7 @@ Use the answers to firm up or correct your first pass.`;
           .replace(/^```\s*/i, "")
           .replace(/\s*```$/i, "")
           .trim(),
-      ) as KenkoResult;
+      ) as HaxiResult;
     } catch {
       return NextResponse.json(
         { error: "We could not read the second answer. Please try again." },

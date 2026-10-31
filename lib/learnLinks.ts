@@ -1,6 +1,6 @@
 import "server-only";
 import { type MedlineTopic, searchMedline } from "./medlineplus";
-import type { Differential, LearnLink } from "./types";
+import type { Differential, LearnLink } from "../types/types";
 
 
 export async function learnLinksFor(

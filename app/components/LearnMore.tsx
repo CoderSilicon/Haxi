@@ -47,10 +47,6 @@ export default function LearnMore({ links }: { links: LearnLink[] }) {
         ))}
       </div>
 
-      <p className="mt-4 text-xs leading-relaxed text-muted">
-        These come from MedlinePlus.gov, the U.S. National Library of Medicine.
-        They are background reading, not a diagnosis.
-      </p>
     </section>
   );
 }

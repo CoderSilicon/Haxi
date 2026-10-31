@@ -1,4 +1,4 @@
-import type { LearnLink, RedFlagPayload } from "./types";
+import type { LearnLink, RedFlagPayload } from "@/types/types";
 
 export type { LearnLink, RedFlagPayload };
 

@@ -1,7 +1,7 @@
 "use client";
 
-import type { LearnLink, RedFlagPayload } from "@/lib/learnTypes";
-import type { KenkoResult } from "@/lib/types";
+import type { LearnLink, RedFlagPayload } from "@/types/learnTypes";
+import type { HaxiResult } from "@/types/types";
 import EmergencyBanner from "./EmergencyBanner";
 import FollowUpQuestions from "./FollowUpQuestions";
 import LearnMore from "./LearnMore";
@@ -73,7 +73,7 @@ const ORDER: Record<string, number> = { High: 0, Moderate: 1, Low: 2 };
 
 function SectionHeading({ title }: { title: string }) {
   return (
-    <h2 className="mb-4 text-lg font-semibold tracking-tight sm:text-xl">
+    <h2 className="mb-3 text-base font-bold tracking-tight sm:text-lg">
       {title}
     </h2>
   );
@@ -85,10 +85,10 @@ function CareLevel({ triageLevel }: { triageLevel: string }) {
   return (
     <div className="flex flex-col items-center">
       <div
-        className={`flex h-32 w-32 items-center justify-center rounded-full ${config.bg}`}
+        className={`flex h-20 w-20 items-center justify-center rounded-xl ${config.bg} border border-current/20`}
       >
         <span
-          className={`text-center text-2xl leading-tight font-bold px-3 ${config.color}`}
+          className={`text-center text-xs leading-tight font-bold px-1 ${config.color}`}
         >
           {config.kid}
         </span>
@@ -135,10 +135,10 @@ export default function ResultsDisplay({
   onViewJournal,
   isRefining = false,
 }: {
-  result: KenkoResult;
+  result: HaxiResult;
   redFlags?: RedFlagPayload[];
   learn?: LearnLink[];
-  followupQuestions?: KenkoResult["followup_questions"];
+  followupQuestions?: HaxiResult["followup_questions"];
   onAnswerFollowUps?: (
     answers: Array<{ id: string; question: string; answer: string }>,
   ) => void;
@@ -161,24 +161,25 @@ export default function ResultsDisplay({
     <div className="animate-in slide-up">
       <div className="mx-auto max-w-4xl px-4 pt-8 sm:px-6">
         {/* Top bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs font-semibold tracking-[0.2em] text-accent uppercase">
-            Your result
-          </p>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted shadow-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            Result
+          </div>
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={onViewJournal}
-              className="k-btn-ghost px-4 py-2"
+              className="k-btn-ghost px-3 py-1.5 text-xs"
             >
-              My journal
+              Journal
             </button>
             <button
               type="button"
               onClick={onPrepareReport}
-              className="k-btn px-4 py-2"
+              className="k-btn px-3 py-1.5 text-xs"
             >
-              For my doctor
+              Doctor report
             </button>
           </div>
         </div>
@@ -187,23 +188,20 @@ export default function ResultsDisplay({
         <EmergencyBanner flags={redFlags} warning={result.emergency_warning} />
 
         {/* The answer, in plain words */}
-        <section className="mt-6 k-card p-6 sm:p-8">
-          <div className="grid items-center gap-7 md:grid-cols-[auto_1fr]">
+        <section className="mt-4 k-card p-5 sm:p-6">
+          <div className="grid items-start gap-5 md:grid-cols-[auto_1fr]">
             <CareLevel triageLevel={result.triage_level} />
             <div>
-              <p className="text-xs font-semibold tracking-[0.2em] text-accent uppercase">
-                The short version
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+                Summary
               </p>
-              <p className="mt-2 text-lg leading-relaxed font-medium text-ink">
-                {result.kenko_eval_summary}
+              <p className="mt-2 text-lg leading-relaxed font-semibold text-ink sm:text-xl">
+                {result.haxi_eval_summary}
               </p>
               {result.plain_summary && (
-                <p className="mt-3 rounded-xl bg-soft px-4 py-3 text-sm leading-relaxed text-body">
-                  <span className="font-semibold">
-                    In really simple words:{" "}
-                  </span>
-                  {result.plain_summary}
-                </p>
+                <div className="mt-3 rounded-lg bg-soft/80 p-3 ring-1 ring-line/60">
+                  <p className="text-sm leading-relaxed text-body">{result.plain_summary}</p>
+                </div>
               )}
             </div>
           </div>
@@ -227,17 +225,21 @@ export default function ResultsDisplay({
         {top && (
           <section className="mt-10">
             <SectionHeading title="Most likely" />
-            <div className="k-card p-6 sm:p-8">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <h3 className="text-xl font-semibold tracking-tight">
-                  {top.condition_name}
-                </h3>
+            <div className="relative overflow-hidden rounded-xl border-2 border-accent/70 bg-surface p-5 sm:p-6 shadow-(--shadow-card)">
+              <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-accent/8 blur-3xl" />
+              <div className="relative flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded bg-linear-to-br from-accent to-accent-strong text-xs font-bold text-white shadow-sm">1</span>
+                  <h3 className="text-lg font-bold tracking-tight">
+                    {top.condition_name}
+                  </h3>
+                </div>
                 <span
                   className={`k-pill ${
                     LIKELIHOOD_TINT[top.likelihood] ?? "bg-soft text-muted"
                   }`}
                 >
-                  {top.likelihood} chance
+                  {top.likelihood}
                 </span>
               </div>
 
@@ -268,10 +270,10 @@ export default function ResultsDisplay({
               {rest.map((dx, i) => {
                 const bar = LIKELIHOOD_BAR[dx.likelihood] ?? LIKELIHOOD_BAR.Low;
                 return (
-                  <div key={dx.condition_name} className="k-card p-6">
-                    <div className="flex flex-wrap items-start justify-between gap-3">
-                      <div className="flex items-center gap-3">
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-soft text-xs font-semibold text-muted">
+                  <div key={dx.condition_name} className="k-card-hover p-5">
+                    <div className="flex flex-wrap items-start justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-6 w-6 items-center justify-center rounded bg-soft text-xs font-semibold text-muted">
                           {i + 2}
                         </span>
                         <h4 className="text-base font-semibold">
@@ -333,13 +335,13 @@ export default function ResultsDisplay({
         {result.recommended_actions?.length > 0 && (
           <section className="mt-10">
             <SectionHeading title="What to do now" />
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="space-y-2">
               {result.recommended_actions.map((action, i) => (
                 <div
                   key={action}
-                  className="flex items-start gap-4 rounded-xl border border-line bg-surface px-5 py-4 shadow-sm"
+                  className="flex items-start gap-3 rounded-lg border border-line bg-surface px-4 py-3"
                 >
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-soft text-xs font-semibold text-accent-strong">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-accent-soft text-xs font-bold text-accent-strong">
                     {i + 1}
                   </span>
                   <p className="text-sm leading-relaxed text-body">{action}</p>
@@ -394,42 +396,26 @@ export default function ResultsDisplay({
 
         {/* Next steps */}
         <section className="mt-10 no-print">
-          <SectionHeading title="What next?" />
-          <div className="grid gap-4 md:grid-cols-2">
+          <SectionHeading title="Next steps" />
+          <div className="grid gap-2 sm:grid-cols-2">
             <button
               type="button"
               onClick={onPrepareReport}
-              className="group flex flex-col items-start rounded-2xl bg-accent p-6 text-left text-white shadow-md shadow-accent/20 transition-all hover:shadow-lg"
+              className="flex items-center justify-between rounded-lg border border-accent bg-accent px-4 py-3 text-left text-white transition-colors hover:bg-accent-strong"
             >
-              <span className="text-sm font-bold">1</span>
-              <span className="mt-4 text-sm font-semibold">
-                Print a page for my doctor
-              </span>
-              <span className="mt-1 text-xs leading-relaxed text-white/75">
-                One clean sheet with everything they need.
-              </span>
+              <span className="text-sm font-semibold">Doctor report</span>
+              <span aria-hidden="true">→</span>
             </button>
             <button
               type="button"
               onClick={onViewJournal}
-              className="group flex flex-col items-start rounded-2xl border border-line bg-surface p-6 text-left shadow-sm transition-all hover:border-accent hover:shadow-md"
+              className="flex items-center justify-between rounded-lg border border-line bg-surface px-4 py-3 text-left transition-colors hover:bg-soft"
             >
-              <span className="text-sm font-bold text-accent-strong">2</span>
-              <span className="mt-4 text-sm font-semibold text-ink">
-                Keep track of how it changes
-              </span>
-              <span className="mt-1 text-xs leading-relaxed text-muted">
-                A quick daily check-in shows if you are getting better.
-              </span>
+              <span className="text-sm font-semibold text-ink">Go to journal</span>
+              <span aria-hidden="true">→</span>
             </button>
           </div>
         </section>
-
-        <p className="mt-10 pb-12 text-center text-xs leading-relaxed text-muted">
-          Kenko is a learning tool, not a doctor. It cannot diagnose or treat
-          you. Always check with a real healthcare professional before you
-          decide what to do.
-        </p>
       </div>
     </div>
   );

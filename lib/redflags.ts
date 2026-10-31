@@ -9,7 +9,7 @@
  * Every rule here is a widely recognised "get help now" signal.
  */
 
-import type { KenkoResult } from "./types";
+import type { HaxiResult } from "../types/types";
 
 export interface RedFlag {
   id: string;
@@ -366,18 +366,58 @@ function normalise(text: string): string {
   return ` ${flat} `;
 }
 
-function has(text: string, phrase: string): boolean {
-  return text.includes(normalise(phrase));
-}
+type TrieOutput = { ruleIndex: number; groupIndex: number; phrase: string };
+type TrieNode = { next: Map<string, TrieNode>; outputs: TrieOutput[] };
 
-function findMatches(text: string, rule: Rule): string[] {
-  const found: string[] = [];
-  for (const group of rule.anyOf) {
-    const hit = group.find((phrase) => has(text, phrase));
-    if (hit) found.push(hit);
+const createTrieNode = (): TrieNode => ({ next: new Map(), outputs: [] });
+
+/** A shared token trie avoids rescanning the report independently for every
+ * phrase, while preserving exact whole-word phrase matching. */
+const PHRASE_TRIE = (() => {
+  const root = createTrieNode();
+  RULES.forEach((rule, ruleIndex) => {
+    rule.anyOf.forEach((group, groupIndex) => {
+      group.forEach((phrase) => {
+        let node = root;
+        for (const token of normalise(phrase).trim().split(" ")) {
+          let child = node.next.get(token);
+          if (!child) {
+            child = createTrieNode();
+            node.next.set(token, child);
+          }
+          node = child;
+        }
+        node.outputs.push({ ruleIndex, groupIndex, phrase });
+      });
+    });
+  });
+  return root;
+})();
+
+function findMatches(text: string, ruleIndex: number): string[] {
+  const rule = RULES[ruleIndex];
+  const tokens = text.trim().split(" ");
+  const groupHits: Array<Set<string>> = rule.anyOf.map(() => new Set<string>());
+
+  for (let start = 0; start < tokens.length; start++) {
+    let node = PHRASE_TRIE;
+    for (let end = start; end < tokens.length; end++) {
+      const child = node.next.get(tokens[end]);
+      if (!child) break;
+      node = child;
+      for (const output of node.outputs) {
+        if (output.ruleIndex === ruleIndex) {
+          groupHits[output.groupIndex].add(output.phrase);
+        }
+      }
+    }
   }
+
+  const found = groupHits
+    .map((hits) => hits.values().next().value)
+    .filter((phrase): phrase is string => phrase !== undefined);
   if (rule.requireAll) return found.length === rule.anyOf.length ? found : [];
-  return found.length > 0 ? found : [];
+  return found;
 }
 
 /** Scans free text and returns every danger sign it can see. */
@@ -391,8 +431,8 @@ export function scanRedFlags(
   );
   const flags: RedFlag[] = [];
 
-  for (const rule of RULES) {
-    const matched = findMatches(text, rule);
+  for (const [ruleIndex, rule] of RULES.entries()) {
+    const matched = findMatches(text, ruleIndex);
     if (matched.length > 0) {
       flags.push({
         id: rule.id,
@@ -411,7 +451,7 @@ export function scanRedFlags(
  * emergency flag, the warning text, or the level of care, a word-scanner
  * hit forces all three to the most urgent setting.
  */
-export function applyRedFlagOverride<T extends KenkoResult>(
+export function applyRedFlagOverride<T extends HaxiResult>(
   result: T,
   flags: RedFlag[],
 ): T {

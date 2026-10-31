@@ -19,7 +19,7 @@ interface WizardData {
   hypothesis: string;
 }
 
-interface KenkoWizardProps {
+interface HaxiWizardProps {
   onComplete: (data: FormData) => void;
   isLoading: boolean;
 }
@@ -104,10 +104,10 @@ const SEVERITY_LABELS: Record<number, string> = {
   10: "The worst it can be",
 };
 
-export default function KenkoWizard({
+export default function HaxiWizard({
   onComplete,
   isLoading,
-}: KenkoWizardProps) {
+}: HaxiWizardProps) {
   const [step, setStep] = useState(0);
   const [data, setData] = useState<WizardData>({
     symptoms: "",
@@ -261,26 +261,19 @@ export default function KenkoWizard({
   return (
     <div className="w-full">
       {/* Progress */}
-      <div className="mb-8">
-        <div className="mb-3 flex items-center justify-between">
-          <span className="text-xs font-semibold text-ink">
-            Step {step + 1} of {TOTAL_STEPS}
-          </span>
-          <span className="text-xs font-medium text-muted">
-            {Math.round(progress)}% done
+      <div className="mb-10">
+        <div className="mb-4 flex items-center justify-between">
+          <span className="text-xs font-medium uppercase tracking-wider text-muted">
+            {step + 1} / {TOTAL_STEPS}
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           {Array.from({ length: TOTAL_STEPS }, (_, i) => (
             <span
               key={`step-segment-${i + 1}`}
-              className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
-                i < step
-                  ? "bg-accent"
-                  : i === step
-                    ? "bg-accent-strong"
-                    : "bg-line-soft"
+              className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
+                i <= step ? "bg-ink" : "bg-line"
               }`}
             />
           ))}
@@ -288,7 +281,7 @@ export default function KenkoWizard({
       </div>
 
       {/* Step Content */}
-      <div className="min-h-[22rem] sm:min-h-[20rem]">
+      <div className="min-h-88 sm:min-h-80">
         {step === 0 && <StepBasic data={data} update={update} />}
         {step === 1 && (
           <StepLocation
@@ -327,7 +320,7 @@ export default function KenkoWizard({
           type="button"
           onClick={handleBack}
           disabled={step === 0}
-          className="k-btn-ghost px-5 py-3 disabled:invisible"
+          className="k-btn-ghost px-6 disabled:invisible"
         >
           Back
         </button>
@@ -336,7 +329,7 @@ export default function KenkoWizard({
           type="button"
           onClick={handleNext}
           disabled={!canAdvance() || isLoading}
-          className="k-btn px-8 py-3"
+          className="k-btn px-8"
         >
           {isLoading ? (
             <span className="inline-flex items-center gap-2.5">
@@ -776,11 +769,11 @@ function StepPhoto({
           handleFiles(e.dataTransfer.files);
         }}
         onClick={() => fileInputRef.current?.click()}
-        className={`group flex w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-12 text-center transition-colors ${
-          isDragging
-            ? "border-accent bg-accent-soft/50"
-            : "border-line bg-white hover:border-accent hover:bg-soft"
-        }`}
+              className={`group flex w-full cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed px-6 py-12 text-center transition-all ${
+                isDragging
+                  ? "border-accent bg-accent-soft/30"
+                  : "border-line bg-subtle hover:border-accent/50"
+              }`}
       >
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-accent-soft transition-colors group-hover:bg-accent">
           <svg

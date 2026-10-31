@@ -4,39 +4,45 @@
   --font-sans: var(--font-sans, "Inter", "Helvetica Neue", Arial, sans-serif);
 
   /* Surfaces */
-  --color-paper: #faf9f6;
+  --color-paper: #f8fafc;
   --color-surface: #ffffff;
-  --color-soft: #f3f1ec;
+  --color-soft: #f1f5f9;
+  --color-subtle: #e2e8f0;
 
   /* Text */
-  --color-ink: #1d1c19;
-  --color-body: #4f4d47;
-  --color-muted: #8c8981;
-  --color-faint: #b9b6ae;
+  --color-ink: #0f172a;
+  --color-body: #334155;
+  --color-muted: #64748b;
+  --color-faint: #94a3b8;
 
   /* Lines */
-  --color-line: #e8e5df;
-  --color-line-soft: #efede8;
+  --color-line: #e2e8f0;
+  --color-line-soft: #f1f5f9;
 
-  /* Brand */
-  --color-accent: #108463;
-  --color-accent-strong: #0b614a;
-  --color-accent-soft: #e3f1ec;
+  /* Brand - vibrant accent */
+  --color-accent: #0ea5e9;
+  --color-accent-strong: #0284c7;
+  --color-accent-soft: #e0f2fe;
 
   /* Severity semantics */
-  --color-success: #2e7d57;
-  --color-success-soft: #e7f2eb;
-  --color-warning: #a57a1f;
-  --color-warning-soft: #f7efdd;
-  --color-alert: #c0721c;
-  --color-alert-soft: #f9eddd;
-  --color-danger: #b3403a;
-  --color-danger-soft: #f8e8e6;
+  --color-success: #16a34a;
+  --color-success-soft: #dcfce7;
+  --color-warning: #ca8a04;
+  --color-warning-soft: #fef9c3;
+  --color-alert: #ea580c;
+  --color-alert-soft: #ffedd5;
+  --color-danger: #dc2626;
+  --color-danger-soft: #fee2e2;
+
+  /* Elevation */
+  --shadow-card: 0 1px 1px rgb(15 23 42 / 0.01), 0 10px 40px -20px rgb(14 165 233 / 0.45);
+  --shadow-card-hover: 0 1px 1px rgb(15 23 42 / 0.01), 0 14px 50px -18px rgb(14 165 233 / 0.5);
 }
 
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -47,23 +53,27 @@ body {
 
 /* Shared component building blocks */
 @utility k-card {
-  @apply rounded-2xl border border-line bg-surface shadow-sm;
+  @apply rounded-2xl border border-line bg-surface transition-all duration-300 shadow-[var(--shadow-card)];
+}
+
+@utility k-card-hover {
+  @apply rounded-2xl border border-line bg-surface transition-all duration-300 shadow-[var(--shadow-card)] hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[var(--shadow-card-hover)];
 }
 
 @utility k-input {
-  @apply w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink shadow-xs outline-none transition placeholder:text-faint focus:border-accent focus:ring-2 focus:ring-accent/20;
+  @apply w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink shadow-sm outline-none transition-all placeholder:text-faint focus:border-accent focus:ring-2 focus:ring-accent/10;
 }
 
 @utility k-btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-sm outline-none transition-all hover:bg-accent-strong hover:shadow focus-visible:ring-2 focus-visible:ring-accent/40 disabled:cursor-not-allowed disabled:opacity-40;
+  @apply inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-accent to-accent-strong px-6 py-2.5 text-sm font-semibold text-white shadow-sm outline-none transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:shadow-accent/20 focus-visible:ring-2 focus-visible:ring-accent/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40;
 }
 
 @utility k-btn-ghost {
-  @apply inline-flex items-center justify-center gap-2 rounded-full border border-line bg-surface px-5 py-3 text-sm font-semibold text-body outline-none transition-colors hover:border-accent hover:text-ink focus-visible:ring-2 focus-visible:ring-accent/30 disabled:cursor-not-allowed disabled:opacity-40;
+  @apply inline-flex items-center justify-center gap-2 rounded-lg border border-line bg-white/90 px-5 py-2.5 text-sm font-medium text-body outline-none transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/60 hover:text-ink hover:bg-soft hover:shadow-sm focus-visible:ring-2 focus-visible:ring-accent/20 disabled:cursor-not-allowed disabled:opacity-40;
 }
 
 @utility k-chip {
-  @apply inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium outline-none transition-colors;
+  @apply inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium outline-none transition-all;
 }
 
 @utility k-chip-on {
@@ -71,11 +81,11 @@ body {
 }
 
 @utility k-chip-off {
-  @apply border-line bg-white text-body hover:border-accent hover:text-ink;
+  @apply border-line bg-white text-body hover:border-accent hover:text-ink hover:bg-soft;
 }
 
 @utility k-pill {
-  @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold;
+  @apply inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold;
 }
 
 @utility link {
