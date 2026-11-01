@@ -38,13 +38,13 @@ export async function POST(request: Request) {
     const modelName = process.env.GEMINI_MODEL;
     if (!apiKey) {
       return NextResponse.json(
-        { error: "The server is missing its GEMINI_API_KEY setting." },
+        { error: "The server is missing its parameters." },
         { status: 500 },
       );
     }
     if (!modelName) {
       return NextResponse.json(
-        { error: "The server is missing its GEMINI_MODEL setting." },
+        { error: "The server is missing its parameters" },
         { status: 500 },
       );
     }
